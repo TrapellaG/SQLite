@@ -5,20 +5,17 @@ using System.Collections.Generic;
 using System.IO;
 using System.Data;
 using Mono.Data.Sqlite;
+using UnityEngine.UI;
 
 
 public class main : MonoBehaviour
 {
+    public ArrayList items;
+
     // Start is called before the first frame update
     void Start()
     {
-        string connection = "URI=file:" + Application.persistentDataPath + "/My_Database";
-
-        IDbConnection dbcon = new SqliteConnection(connection);
-        dbcon.Open();
-
-        //IDbCommand dbcmd;
-        IDataReader reader;
+        
 
         //        CREATE TABLE IF NOT EXISTS "items"(
         //    "id_item"   INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -61,13 +58,30 @@ public class main : MonoBehaviour
         //cmnd.CommandText = "INSERT INTO my_table (id, val) VALUES (0, 5)";
         //cmnd.ExecuteNonQuery();
 
+        
+
+
+    }
+
+    public void SetItems()
+    {
+        items = new ArrayList();
+
+        string connection = "URI=file:" + Application.persistentDataPath + "/My_Database";
+
+        IDbConnection dbcon = new SqliteConnection(connection);
+        dbcon.Open();
+
+        //IDbCommand dbcmd;
+        IDataReader reader;
+
         IDbCommand cmnd_read = dbcon.CreateCommand();
-        string query = "SELECT * FROM my_table";
+        string query = "SELECT * FROM items";
         cmnd_read.CommandText = query;
+
         reader = cmnd_read.ExecuteReader(); while (reader.Read())
         {
-            Debug.Log("id: " + reader[0].ToString());
-            Debug.Log("val: " + reader[1].ToString());
+            items.Add(new Item(reader[0].ToString(), reader[1].ToString(), reader[2].ToString(), reader[4].ToString()));
         }
         dbcon.Close();
     }
