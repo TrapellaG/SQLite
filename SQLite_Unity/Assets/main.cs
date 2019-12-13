@@ -63,6 +63,59 @@ public class main : MonoBehaviour
 
     }
 
+    public bool ChechIfUserExist(string username)
+    {
+        bool exist = false;
+
+        string connection = "URI=file:" + Application.persistentDataPath + "/My_Database";
+
+        IDbConnection dbcon = new SqliteConnection(connection);
+        dbcon.Open();
+
+        //IDbCommand dbcmd;
+        IDataReader reader;
+
+        IDbCommand cmnd_read = dbcon.CreateCommand();
+        string query = "SELECT user FROM players WHERE user = '"+username+"'";
+        cmnd_read.CommandText = query;
+
+        reader = cmnd_read.ExecuteReader();
+
+        if(reader != null)
+        {
+            exist = true;
+        }
+        else
+        {
+            exist = false;
+        }
+
+        dbcon.Close();
+
+        return exist;
+    }
+
+    public void CreateUser(string name, string username, string password)
+    {
+
+        Debug.Log("ok");
+        string connection = "URI=file:" + Application.persistentDataPath + "/My_Database";
+
+        IDbConnection dbcon = new SqliteConnection(connection);
+        dbcon.Open();
+
+        //IDbCommand dbcmd;
+        IDataReader reader;
+
+        IDbCommand cmnd_read = dbcon.CreateCommand();
+        string query = "INSERT INTO players (name, user, pass, money) VALUES ('"+name+"', '"+username+"', '"+password+"', 1000)";
+        cmnd_read.CommandText = query;
+        reader = cmnd_read.ExecuteReader();
+        dbcon.Close();
+
+        Debug.Log(query);
+    }
+
     public void SetItems()
     {
         items = new ArrayList();

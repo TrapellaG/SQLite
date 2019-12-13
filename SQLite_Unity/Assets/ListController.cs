@@ -7,6 +7,7 @@ public class ListController : MonoBehaviour
 {
     public GameObject ContentPanel;
     public GameObject ListItemPrefab;
+    public Text money;
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +23,7 @@ public class ListController : MonoBehaviour
             List controller = newItem.GetComponent<List>();
             controller.itemName.text = item.itemName;
             controller.itemDescription.text = item.itemDescription;
+            controller.cost.text = item.itemCost;
             newItem.transform.parent = ContentPanel.transform;
             newItem.transform.localScale = Vector3.one;
         }
