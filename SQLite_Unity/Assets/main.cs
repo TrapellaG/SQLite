@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Data;
+using System;
 using Mono.Data.Sqlite;
 using UnityEngine.UI;
 
@@ -11,57 +12,6 @@ using UnityEngine.UI;
 public class main : MonoBehaviour
 {
     public ArrayList items;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-
-        //        CREATE TABLE IF NOT EXISTS "items"(
-        //    "id_item"   INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-        //    "item"  TEXT NOT NULL,
-        //    "price" INTEGER NOT NULL,
-        //    "img"   TEXT,
-        //    "desc"  TEXT
-        //);
-
-
-        //        CREATE TABLE IF NOT EXISTS"players"(
-        //    "id_player" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-        //    "name"  TEXT NOT NULL,
-        //    "user"  TEXT NOT NULL,
-        //    "pass"  TEXT NOT NULL,
-        //    "money" INTEGER NOT NULL DEFAULT 0,
-        //    "img"   TEXT
-        //);
-
-
-
-        //        CREATE TABLE IF NOT EXISTS "inventory"(
-        //    "id_inventory"  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-        //    "id_player" INTEGER NOT NULL,
-        //    "id_item"   INTEGER NOT NULL,
-        //    "quantity"  INTEGER NOT NULL DEFAULT 0
-        //);
-
-
-
-
-        //dbcmd = dbcon.CreateCommand();
-        //string q_createTable =
-        //  "CREATE TABLE IF NOT EXISTS my_table (id INTEGER PRIMARY KEY, val INTEGER )";
-
-        //dbcmd.CommandText = q_createTable;
-        //reader = dbcmd.ExecuteReader();
-
-        //IDbCommand cmnd = dbcon.CreateCommand();
-        //cmnd.CommandText = "INSERT INTO my_table (id, val) VALUES (0, 5)";
-        //cmnd.ExecuteNonQuery();
-
-        
-
-
-    }
 
     public bool ChechIfUserExist(string username)
     {
@@ -76,12 +26,16 @@ public class main : MonoBehaviour
         IDataReader reader;
 
         IDbCommand cmnd_read = dbcon.CreateCommand();
-        string query = "SELECT user FROM players WHERE user = '"+username+"'";
+        string query = "SELECT count(id_player) FROM players WHERE user = '" + username+"'";
+        cmnd_read.CommandType = CommandType.Text;
         cmnd_read.CommandText = query;
+
+        int RowCount = 0;
+        RowCount = Convert.ToInt32(cmnd_read.ExecuteScalar());
 
         reader = cmnd_read.ExecuteReader();
 
-        if(reader != null)
+        if (RowCount > 0)
         {
             exist = true;
         }
@@ -93,6 +47,43 @@ public class main : MonoBehaviour
         dbcon.Close();
 
         return exist;
+    }
+
+    public bool CheckLogin(string username, string password)
+    {
+        bool ok = false;
+
+        string connection = "URI=file:" + Application.persistentDataPath + "/My_Database";
+
+        IDbConnection dbcon = new SqliteConnection(connection);
+        dbcon.Open();
+
+        //IDbCommand dbcmd;
+        IDataReader reader;
+
+        IDbCommand cmnd_read = dbcon.CreateCommand();
+
+        string query = "SELECT count(id_player) FROM players WHERE user = '" + username + "' AND pass = '" + password + "'";
+        cmnd_read.CommandType = CommandType.Text;
+        cmnd_read.CommandText = query;
+
+        int RowCount = 0;
+        RowCount = Convert.ToInt32(cmnd_read.ExecuteScalar());
+
+        reader = cmnd_read.ExecuteReader();
+
+        if (RowCount > 0)
+        {
+            ok = true;
+        }
+        else
+        {
+            ok = false;
+        }
+
+        dbcon.Close();
+
+        return ok;
     }
 
     public void CreateUser(string name, string username, string password)

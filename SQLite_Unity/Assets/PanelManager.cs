@@ -13,20 +13,24 @@ public class PanelManager : MonoBehaviour
     public Button loginButton;
     public Button createUserTo;
     public Button createUser;
+    public Button backToMenu;
+    public Text userNotLoged;
+    public Login loged = GameObject.Find("login").GetComponent<Login>();
 
     // Start is called before the first frame update
     void Start()
-    {
+    {       
         mainMenu.SetActive(true);
         loginPanel.SetActive(false);
         createUserPanel.SetActive(false);
 
     }
-
-    // Update is called once per frame
-    void Update()
+    
+    public void BackToMenu()
     {
-        
+        loginPanel.SetActive(false);
+        createUserPanel.SetActive(false);
+        mainMenu.SetActive(true);
     }
 
     public void showLoginPanel()
@@ -39,5 +43,18 @@ public class PanelManager : MonoBehaviour
     {
         loginPanel.SetActive(false);
         createUserPanel.SetActive(true);
+    }
+
+    public void Play()
+    {
+        if(loged.loged == true)
+        {
+            mainMenu.SetActive(false);
+        }
+        else
+        {
+            userNotLoged.text = "user not loged";
+        }
+     
     }
 }

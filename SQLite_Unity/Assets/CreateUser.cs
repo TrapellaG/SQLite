@@ -10,10 +10,15 @@ public class CreateUser : MonoBehaviour
     public Text username;
     public Text password;
     public Text repeatPassword;
-    
-    public void SendParamsToDB()
+    public Text userCreated;
+
+    private void Start()
     {
-      
+        userCreated.text = "";
+    }
+
+    public void SendParamsToDB()
+    {   
         bool userExist = false;
         GameObject db = GameObject.Find("DB");
         main main = db.GetComponent<main>();
@@ -22,26 +27,13 @@ public class CreateUser : MonoBehaviour
 
         if(userExist == true)
         {
-            Debug.Log(userExist);
-            //usuario ya existe
+            userCreated.text = "User allready exists";
         }
         else
         {
-            Debug.Log(userExist);
             main.CreateUser(name.text.ToString(), username.text.ToString(), password.text.ToString());
+            userCreated.text = "User created successfully";
         }
-        
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-            
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
         
     }
 }
