@@ -13,6 +13,54 @@ public class main : MonoBehaviour
 {
     public ArrayList items;
 
+    public void UpdateMoney(int userMoney, string username)
+    {
+        string connection = "URI=file:" + Application.persistentDataPath + "/My_Database";
+
+        IDbConnection dbcon = new SqliteConnection(connection);
+        dbcon.Open();
+
+        //IDbCommand dbcmd;
+        IDataReader reader;
+
+        IDbCommand cmnd_read = dbcon.CreateCommand();
+        string query = "UPDATE players SET money = '" + userMoney + "'";
+        cmnd_read.CommandType = CommandType.Text;
+        cmnd_read.CommandText = query;
+
+        reader = cmnd_read.ExecuteReader();
+
+        dbcon.Close();
+
+    }
+
+    public int CheckEnoughtMoney(string username, int money)
+    {
+        int userMoney = 0;
+
+        string connection = "URI=file:" + Application.persistentDataPath + "/My_Database";
+
+        IDbConnection dbcon = new SqliteConnection(connection);
+        dbcon.Open();
+
+        //IDbCommand dbcmd;
+        IDataReader reader;
+
+        IDbCommand cmnd_read = dbcon.CreateCommand();
+        string query = "SELECT money FROM players WHERE user = '" + username + "'";
+        cmnd_read.CommandType = CommandType.Text;
+        cmnd_read.CommandText = query;
+
+        userMoney = Convert.ToInt32(cmnd_read.ExecuteScalar());
+
+        reader = cmnd_read.ExecuteReader();
+
+        dbcon.Close();
+
+        return userMoney;
+
+    }
+
     public bool ChechIfUserExist(string username)
     {
         bool exist = false;

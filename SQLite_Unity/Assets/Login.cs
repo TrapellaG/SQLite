@@ -8,6 +8,7 @@ public class Login : MonoBehaviour
     public Button loginUser;
     public Text username;
     public Text password;
+    public Text usernameLoged;
     public GameObject wrongUser;
     public GameObject shopPanel;
     public GameObject loginPanel;
@@ -33,6 +34,7 @@ public class Login : MonoBehaviour
             loginPanel.SetActive(false);
             shopPanel.SetActive(true);
             loged = true;
+            usernameLoged.text = username.text.ToString();
         }
         else
         {
