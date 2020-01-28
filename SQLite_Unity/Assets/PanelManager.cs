@@ -15,11 +15,12 @@ public class PanelManager : MonoBehaviour
     public Button createUser;
     public Button backToMenu;
     public Text userNotLoged;
-    public Login loged = GameObject.Find("login").GetComponent<Login>();
+    public Login loged;
 
     // Start is called before the first frame update
     void Start()
-    {       
+    {
+        loged = GetComponent<Login>();
         mainMenu.SetActive(true);
         loginPanel.SetActive(false);
         createUserPanel.SetActive(false);
