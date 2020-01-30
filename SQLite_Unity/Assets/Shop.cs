@@ -8,25 +8,52 @@ public class Shop : MonoBehaviour
 {
     public bool enoughtMoney;
     public Text money;
+    int money2;
     public Text username;
+   // public Text notEnoughMoney;
+   // public Button backToMenu;
+    GameObject db;
+    main main;
+    int userMoney = 0;
+
+    public void Start()
+    {
+        //notEnoughMoney.text = "";
+        db = GameObject.Find("DB");
+        main = db.GetComponent<main>();
+        userMoney = main.CheckEnoughtMoney(username.text.ToString());
+        money.text = userMoney.ToString() + "$";
+    }
+
+    public void GetItemPrice(int price)
+    {
+        Debug.Log("price2 " + price);
+        money2 = price;
+    }
 
     public void Buy()
     {
-        int userMoney = 0;
-        GameObject db = GameObject.Find("DB");
-        main main = db.GetComponent<main>();
+        Debug.Log("buy");
+        userMoney = main.CheckEnoughtMoney(username.text.ToString());
+        
+        Debug.Log("price " + money2);
 
-        userMoney = main.CheckEnoughtMoney(username.text.ToString(), Int32.Parse(username.ToString()));
-
-        if(userMoney >= Int32.Parse(money.ToString()))
+        if (userMoney >= money2)
         {
-            userMoney = userMoney - Int32.Parse(money.ToString());
+            userMoney = userMoney - money2;
             
-            main.UpdateMoney(userMoney, username.ToString());
+            main.UpdateMoney(userMoney, username.text.ToString());
+            userMoney = main.CheckEnoughtMoney(username.text.ToString());
+            money.text = userMoney.ToString() + "$";
         }
         else
         {
-
+            //notEnoughMoney.text = "not enough money";
         }
+    }
+
+    public void BackToMenu()
+    {
+
     }
 }

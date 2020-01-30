@@ -24,9 +24,10 @@ public class main : MonoBehaviour
         IDataReader reader;
 
         IDbCommand cmnd_read = dbcon.CreateCommand();
-        string query = "UPDATE players SET money = '" + userMoney + "'";
+        string query = "UPDATE players SET money = '" + userMoney + "' WHERE user = '" + username + "'";
         cmnd_read.CommandType = CommandType.Text;
         cmnd_read.CommandText = query;
+        Debug.Log(query);
 
         reader = cmnd_read.ExecuteReader();
 
@@ -34,7 +35,7 @@ public class main : MonoBehaviour
 
     }
 
-    public int CheckEnoughtMoney(string username, int money)
+    public int CheckEnoughtMoney(string username)
     {
         int userMoney = 0;
 
@@ -178,9 +179,4 @@ public class main : MonoBehaviour
         dbcon.Close();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
