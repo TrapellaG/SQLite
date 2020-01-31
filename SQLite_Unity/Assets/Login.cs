@@ -17,7 +17,6 @@ public class Login : MonoBehaviour
     private void Start()
     {
         wrongUser.SetActive(false);
-        loged = false;
     }
 
     public void LoginSendParamsToDB()
