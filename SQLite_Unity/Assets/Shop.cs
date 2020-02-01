@@ -52,8 +52,4 @@ public class Shop : MonoBehaviour
         }
     }
 
-    public void BackToMenu()
-    {
-
-    }
 }

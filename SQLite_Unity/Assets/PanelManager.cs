@@ -6,29 +6,38 @@ using UnityEngine.UI;
 public class PanelManager : MonoBehaviour
 {
     public Button login;
-    public Button play;
     public GameObject mainMenu;
     public GameObject loginPanel;
     public GameObject createUserPanel;
+    public GameObject clickerMoney;
     public GameObject shop;
+    public GameObject clicker;
+    public GameObject buttonClicker;
+    public GameObject timer;
+    public GameObject clickerButton;
+    public GameObject username;
     public Button loginButton;
     public Button createUserTo;
     public Button createUser;
     public Button backToMenu;
     public Text userNotLoged;
+    GameObject db;
+    main main;
     bool loged = false;
 
     // Start is called before the first frame update
     void Start()
     {
+        db = GameObject.Find("DB");
+        main = db.GetComponent<main>();
         mainMenu.SetActive(true);
         loginPanel.SetActive(false);
         createUserPanel.SetActive(false);
-
     }
     
     public void BackToMenu()
     {
+        username.SetActive(false);
         loginPanel.SetActive(false);
         createUserPanel.SetActive(false);
         shop.SetActive(false);
@@ -47,22 +56,32 @@ public class PanelManager : MonoBehaviour
         createUserPanel.SetActive(true);
     }
 
+    public void showShop()
+    {
+        main.CheckEnoughtMoney(username.ToString());
+        username.SetActive(true);
+        clickerMoney.SetActive(false);
+        clickerButton.SetActive(false);
+        clicker.SetActive(false);
+        timer.SetActive(false);
+        buttonClicker.SetActive(false);
+        loginPanel.SetActive(false);
+        createUserPanel.SetActive(false);
+        mainMenu.SetActive(false);
+        shop.SetActive(true);
+    }
+
+
     public void Play()
     {
-        /*GameObject loged = GameObject.Find("login");
-        Login logins = loged.GetComponent<Login>();*/
         loged = GameObject.Find("DB").GetComponent<Login>().loged;
 
-        if (loged == true)
-        {
-            userNotLoged.text = "";
-            mainMenu.SetActive(false);
-            shop.SetActive(false);
-        }
-        else
-        {
-            userNotLoged.text = "user not loged";
-        }
-     
+        clickerMoney.SetActive(true);
+        clickerButton.SetActive(true);
+        timer.SetActive(true);
+        userNotLoged.text = "";
+        mainMenu.SetActive(false);
+        shop.SetActive(false);
+        clicker.SetActive(true);     
     }
 }

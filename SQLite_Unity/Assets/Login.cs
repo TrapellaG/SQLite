@@ -12,10 +12,12 @@ public class Login : MonoBehaviour
     public GameObject wrongUser;
     public GameObject shopPanel;
     public GameObject loginPanel;
+    PanelManager panel;
     public bool loged;
 
     private void Start()
     {
+        panel = GameObject.Find("Main Camera").GetComponent<PanelManager>();
         wrongUser.SetActive(false);
     }
 
@@ -30,8 +32,7 @@ public class Login : MonoBehaviour
         if (userExist == true)
         {
             Debug.Log("exist");
-            loginPanel.SetActive(false);
-            shopPanel.SetActive(true);
+            panel.showShop();
             loged = true;
             usernameLoged.text = username.text.ToString();
         }
